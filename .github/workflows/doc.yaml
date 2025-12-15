@@ -8,18 +8,18 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DB_HOST: ${{secrets.DB_HOST}}
-      DB_USER: ${{secrets.DB_USER}}
-      DB_DATABASE: ${{secrets.DB_DATABASE}}
-      DB_PORT: ${{secrets.DB_PORT}}
+      DB_HOST: ${{vars.DB_HOST}}
+      DB_USER: ${{vars.DB_USER}}
+      DB_DATABASE: ${{vars.DB_DATABASE}}
+      DB_PORT: ${{vars.DB_PORT}}
       DB_PASSWORD: ${{secrets.DB_PASSWORD}}
 
     services:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: ${{secrets.DB_PASSWORD}}
-          MYSQL_DATABASE: ${{secrets.DB_DATABASE}}
+          MYSQL_ROOT_PASSWORD: ${{vars.DB_PASSWORD}}
+          MYSQL_DATABASE: ${{vars.DB_DATABASE}}
         ports:
           - 3308:3306
 
