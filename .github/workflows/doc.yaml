@@ -37,9 +37,9 @@ jobs:
 
       - name: wait for sql to be ready
         run: |
-          until mysql -h $DB_HOST -u $DB_USER -P $DB_PORT -pDB_PASSWORD -e "select 1"; do
-          echo "Wait for sql to be ready"
-          sleep 2
+          until mysql -h $DB_HOST -u $DB_USER -P $DB_PORT -p$DB_PASSWORD -e "select 1"; do
+           echo "Wait for sql to be ready"
+           sleep 2
           done;
 
       - name: Initialize DB
