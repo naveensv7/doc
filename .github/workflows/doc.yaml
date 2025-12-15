@@ -7,6 +7,13 @@ jobs:
   mysql-test:
     runs-on: ubuntu-latest
 
+    env:
+      DB_HOST: 127.0.0.1
+      DB_USER: root
+      DB_PORT: 3308
+      DB_DATABASE: accounts
+      DB_PASSWORD: Naveen@123
+
     services:
       mysql:
         image: mysql:8.0
@@ -37,7 +44,7 @@ jobs:
 
       - name: Initialize DB
         run: |
-          mysql -h 127.0.0.1 -P 3308 -u root -p Naveen@123 <<EOF
+          mysql -h 127.0.0.1 -P 3308 -u root -pNaveen@123 <<EOF
 
           SELECT USER,HOST FROM mysql.user;
           CREATE DATABASE IF NOT EXISTS accounts;
