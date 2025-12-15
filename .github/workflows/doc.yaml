@@ -49,7 +49,7 @@ jobs:
 
       - name: Initialize DB
         run: |
-          mysql -h $DB_HOST -u $DB_USER -P $DB_PORT -pDB_PASSWORD << EOF
+          mysql -h $DB_HOST -u $DB_USER -P $DB_PORT -p$DB_PASSWORD << EOF
           SELECT USER,HOST FROM mysql.user;
           CREATE DATABASE IF NOT EXISTS accounts;
            USE accounts;
