@@ -1,18 +1,17 @@
 name: My sql connection test
-on: 
+on:
   push:
-    branches: [ 'main' ]
-
+    branches: ["main"]
 
 jobs:
   mysql test:
     runs-on: ubuntu-latest
 
     steps:
-      -name: Checkout repository
-       uses: action/checkout@v4
+      - name: Checkout repository
+        uses: action/checkout@v4
 
-      -name: Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -20,6 +19,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      -name: RUN script
-       uses: node index.js
-  
+      - name: RUN script
+        uses: node index.js
