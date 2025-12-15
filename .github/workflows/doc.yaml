@@ -37,14 +37,14 @@ jobs:
 
       - name: Wait for sql to be ready
         run: |
-          until mysql -h 127.0.0.1 -P 3308 -u root -pNaveen@123 -e "SELECT 1"; do
+          until mysql -h {{env.DB_HOST}} -P {{env.DB_PORT}} -u {{env.DB_USER}} -p{{env.DB_PASSWORD}} -e "SELECT 1"; do
             echo "waiting for mysql ready"
             sleep 2
           done
 
       - name: Initialize DB
         run: |
-          mysql -h 127.0.0.1 -P 3308 -u root -pNaveen@123 <<EOF
+          mysql -h {{env.DB_HOST}} -P {{env.DB_PORT}} -u {{env.DB_USER}} -p{{env.DB_PASSWORD}} <<EOF
 
           SELECT USER,HOST FROM mysql.user;
           CREATE DATABASE IF NOT EXISTS accounts;
