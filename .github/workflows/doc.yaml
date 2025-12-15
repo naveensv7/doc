@@ -1,4 +1,4 @@
-name: My sql connection test
+name: my sql connection test
 on:
   push:
     branches: ["main"]
@@ -8,26 +8,26 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DB_HOST: 127.0.0.1
-      DB_USER: root
-      DB_PORT: 3308
-      DB_DATABASE: accounts
-      DB_PASSWORD: Naveen@123
+      DB_HOST: ${{secrets.env.DB_HOST}}
+      DB_USER: ${{secrets.env.DB_USER}}
+      DB_DATABASE: ${{secrets.env.DB_DATABASE}}
+      DB_PORT: ${{secrets.env.DB_PORT}}
+      DB_PASSWORD: ${{secrets.env.DB_PASSWORD}}
 
     services:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: Naveen@123
-          MYSQL_DATABASE: accounts
+          MYSQL_ROOT_PASSWORD: ${{secrets.env.DB_PASSWORD}}
+          MYSQL_DATABASE: ${{secrets.env.DB_DATABASE}}
         ports:
           - 3308:3306
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: setup node
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -35,31 +35,27 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Wait for sql to be ready
+      - name: wait for sql to be ready
         run: |
-          until mysql -h {{env.DB_HOST}} -P {{env.DB_PORT}} -u {{env.DB_USER}} -p{{env.DB_PASSWORD}} -e "SELECT 1"; do
-            echo "waiting for mysql ready"
-            sleep 2
-          done
+          until mysql -h $DB_HOST -u $DB_USER -P $DB_PORT -pDB_PASSWORD -e "select 1"; do
+          echo "Wait for sql to be ready"
+          sleep 2
+          done;
 
       - name: Initialize DB
         run: |
-          mysql -h {{env.DB_HOST}} -P {{env.DB_PORT}} -u {{env.DB_USER}} -p{{env.DB_PASSWORD}} <<EOF
-
+          mysql -h $DB_HOST -u $DB_USER -P $DB_PORT -pDB_PASSWORD << EOF
           SELECT USER,HOST FROM mysql.user;
           CREATE DATABASE IF NOT EXISTS accounts;
-          USE accounts;
-
-
+           USE accounts;
           CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(50),
-            email VARCHAR(100)
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(50),
+          email VARCHAR(100)
           );
-
           INSERT INTO users (name,email)
           VALUES("naveen","naveensv77@gmail.com");
           EOF
 
-      - name: RUN script
-        run: "node index.js"
+      - name: Run command
+        run: node index.js
