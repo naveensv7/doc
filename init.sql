@@ -3,8 +3,10 @@ CREATE DATABASE IF NOT EXISTS accounts;
 USE accounts;
 
 CREATE TABLE
-    users (
-        id INT AUTO_INCREMENT PRIMARY KEY name VARCHAR(255) NOT NULL email VARCHAR(255) NOT NULL UNIQUE
+    IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(50),
+        email VARCHAR(100)
     );
 
 INSERT INTO
